@@ -18,3 +18,6 @@ class BasePage:
 
     def _type(self, locator: tuple, text: str):
         self._find(locator).send_keys(text)
+
+    def _get_text(self, locator: tuple) -> str:
+        return self._find(locator).text
