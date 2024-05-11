@@ -6,7 +6,7 @@ from page_objects.base_page import BasePage
 
 class ProductPage(BasePage):
     # product description:
-
+    __url = "https://www.saucedemo.com/inventory.html"
     __dropdown = (By.CLASS_NAME, "product_sort_container")
 
     def __init__(self, driver: WebDriver):
@@ -28,3 +28,11 @@ class ProductPage(BasePage):
 
     def select_sort_from_drop_down(self, option: str):
         return super()._select_option_from_dropdown(self.__dropdown, option)
+
+    @property
+    def current_url(self) -> str:
+        return self._driver.current_url
+
+    @property
+    def expected_url(self) -> str:
+        return self.__url
