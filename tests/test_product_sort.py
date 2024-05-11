@@ -13,7 +13,7 @@ def execute_login(driver):
 
 
 class TestProductSort:
-    # test is designed to check whether the prices on the product page are sorted from low to high
+    # test is designed to check whether the products on the product page are sorted from low to high
     def test_sort_low_to_high(self, driver, execute_login):
         product_page = ProductPage(driver)
         product_page.select_sort_from_drop_down('Price (low to high)')
@@ -22,7 +22,7 @@ class TestProductSort:
         sorted_items_prices.sort()
         assert items_prices == sorted_items_prices, "Prices are not sorted from low to high"
 
-    # test is designed to check whether the prices on the product page are sorted from high to low
+    # test is designed to check whether the products on the product page are sorted from high to low
     def test_sort_high_to_low(self, driver, execute_login):
         product_page = ProductPage(driver)
         product_page.select_sort_from_drop_down('Price (high to low)')
@@ -32,7 +32,7 @@ class TestProductSort:
         sorted_items_prices.reverse()
         assert items_prices == sorted_items_prices, "Prices are not sorted from high to low"
 
-    # test is designed to check whether the prices on the product page are sorted from Z to A
+    # test is designed to check whether the products on the product page are sorted from Z to A
     def test_sort_z_to_a(self, driver, execute_login):
         product_page = ProductPage(driver)
         product_page.select_sort_from_drop_down('Name (Z to A)')
