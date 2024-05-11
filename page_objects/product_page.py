@@ -8,9 +8,10 @@ class ProductPage(BasePage):
     # product description:
 
     __dropdown = (By.CLASS_NAME, "product_sort_container")
-    #__initial_prices = (By.CSS_SELECTOR, ".inventory_item_price")
+    #__initial_prices = (By.CLASS_NAME, "inventory_item_price")
     #__initial_prices_values = [float(price.text.replace("$", "")) for price in __initial_prices]
     __low_to_high = "Price (low to high)"
+    __high_to_low = "Price (high to low)"
 
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
