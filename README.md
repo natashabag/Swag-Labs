@@ -1,1 +1,1 @@
-## *Test automation practice in progress*
+## Test automation practice for Swag Labs in progress
