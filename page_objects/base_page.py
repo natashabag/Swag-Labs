@@ -29,9 +29,9 @@ class BasePage:
         select = Select(select_element)
         select.select_by_visible_text(text)
 
-    def _get_items_prices(self, class_locator):
+    def _get_items_prices(self, locator):
         items_prices = []
-        for item_price in self._driver.find_elements(By.CLASS_NAME, class_locator):
+        for item_price in self._driver.find_elements(*locator):
             only_numbers = item_price.text.replace('$', '')
             items_prices.append(float(only_numbers))
         return items_prices

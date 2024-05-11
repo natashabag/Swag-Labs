@@ -8,16 +8,13 @@ class ProductPage(BasePage):
     # product description:
 
     __dropdown = (By.CLASS_NAME, "product_sort_container")
-    #__initial_prices = (By.CLASS_NAME, "inventory_item_price")
-    #__initial_prices_values = [float(price.text.replace("$", "")) for price in __initial_prices]
-    __low_to_high = "Price (low to high)"
-    __high_to_low = "Price (high to low)"
+    __prices = (By.CLASS_NAME, "inventory_item_price")
 
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
 
     def get_inventory_items_prices(self):
-        return super()._get_items_prices("inventory_item_price")
+        return super()._get_items_prices(self.__prices)
 
-    def select_from_drop_down(self):
-        return super()._select_option_from_dropdown(self.__dropdown, self.__low_to_high)
+    def select_sort_from_drop_down(self, option: str):
+        return super()._select_option_from_dropdown(self.__dropdown, option)
