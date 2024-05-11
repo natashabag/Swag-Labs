@@ -1,5 +1,4 @@
 import time
-
 from page_objects.login_page import LoginPage
 
 
