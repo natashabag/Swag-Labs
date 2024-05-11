@@ -34,10 +34,5 @@ class LoginPage(BasePage):
     def get_error_message(self):
         return super()._get_text(self.__error_message_container)
 
-    def verify_sorting(self):
-        super()._open_url(self.__url)
-        super()._type(self.__username_field, self.__username)
-        super()._type(self.__password_field, self.__password)
-        super()._click(self.__login_button)
 
 
