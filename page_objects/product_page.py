@@ -8,6 +8,9 @@ class ProductPage(BasePage):
     # product description:
     __url = "https://www.saucedemo.com/inventory.html"
     __dropdown = (By.CLASS_NAME, "product_sort_container")
+    __add_backpack_button = (By.ID, "add-to-cart-sauce-labs-backpack")
+    __remove_backpack_button = (By.ID, "remove-sauce-labs-backpack")
+    __shopping_cart_badge = (By.CLASS_NAME, "shopping_cart_badge")
 
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
@@ -28,6 +31,15 @@ class ProductPage(BasePage):
 
     def select_sort_from_drop_down(self, option: str):
         return super()._select_option_from_dropdown(self.__dropdown, option)
+
+    def add_backpack_to_cart(self):
+        super()._click(self.__add_backpack_button)
+
+    def _check_remove_button_displayed(self):
+        return super()._is_visible(self.__remove_backpack_button)
+
+    def _get_number_of_items_in_the_cart(self):
+        return super()._get_text(self.__shopping_cart_badge)
 
     @property
     def current_url(self) -> str:

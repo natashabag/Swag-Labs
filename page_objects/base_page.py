@@ -28,3 +28,6 @@ class BasePage:
         select_element = self._find(locator)
         select = Select(select_element)
         select.select_by_visible_text(text)
+
+    def _is_visible(self, locator):
+        return self._find(locator).is_displayed()
