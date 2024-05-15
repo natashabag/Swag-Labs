@@ -15,6 +15,7 @@ def execute_login_and_add_product(driver):
 
 
 class TestCheckOut:
+    # test is designed to check checkout flow (from adding product to cart to finishing the order)
     def test_check_out(self, driver, execute_login_and_add_product):
         checkout_page = CheckOutPage(driver)
         checkout_page.open()

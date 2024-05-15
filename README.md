@@ -1,8 +1,22 @@
-## Test automation practice for Swag Labs in progress
-tests:
-1) sort A-Z
-2) sort Z-A
-3) price low-to-high
-4) price high-to-low
-5) log in with valid credentials
-6) log in as a locked-out user
+# Swag Labs Store - Selenium Webdriver Python project 👩🏻‍💻
+
+### This project is designed to test functionalities of Swag Labs Store.🛒
+## Test Coverage:
+
+1. <b> Authentication: </b> login-in with valid credentials
+2. <b> Authentication: </b> login-in as a locked-out user
+3. <b> Item Sorting:</b> Sort items by name: A-Z
+4. <b> Item Sorting:</b> Sort items by name: Z-A
+5. <b> Item Sorting:</b> Sort items by price: low-to-high
+6. <b> Item Sorting:</b> Sort items by price: high-to-low
+7. <b> Shopping flow:</b> Adding items to cart
+8. <b> Checkout:</b> Complete the order and receive confirmation
+9. ...in progress
+## Tools and Technologies Used:
+
+<b> Selenium Webdriver + Pytest</b>
+
+<b> Programming Language:</b> Python
+
+<b> IDE:</b> PyCharm
+
