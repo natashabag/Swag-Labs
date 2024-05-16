@@ -37,7 +37,7 @@ class TestProductSort:
         sorted_items_names = items_names.copy()
         sorted_items_names.sort()
         sorted_items_names.reverse()
-        assert items_names == sorted_items_names, "Prices are not sorted from Z to A"
+        assert items_names == sorted_items_names, "Products are not sorted from Z to A"
 
     # test is designed to check whether the products on the product page are sorted from A to Z by default
     def test_default_sort(self, driver, execute_login):
@@ -45,4 +45,4 @@ class TestProductSort:
         items_names = product_page.get_inventory_names()
         sorted_items_names = items_names.copy()
         sorted_items_names.sort()
-        assert items_names == sorted_items_names, "Prices are not sorted from A to Z"
+        assert items_names == sorted_items_names, "Products are not sorted from A to Z"

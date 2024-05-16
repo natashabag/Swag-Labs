@@ -1,3 +1,5 @@
+from typing import List
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
@@ -14,6 +16,9 @@ class BasePage:
 
     def _find(self, locator: tuple) -> WebElement:
         return self._driver.find_element(*locator)
+
+    def _find_elements(self, locator: tuple) -> List[WebElement]:
+        return self._driver.find_elements(*locator)
 
     def _click(self, locator: tuple):
         self._find(locator).click()

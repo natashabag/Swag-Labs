@@ -11,7 +11,7 @@ def execute_login_and_add_product(driver):
     login_page = LoginPage(driver)
     login_page.log_in_valid_user()
     product_page = ProductPage(driver)
-    product_page.add_backpack_to_cart()
+    product_page.add_product_to_cart()
 
 
 class TestCheckOut:
