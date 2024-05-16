@@ -4,6 +4,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
 
 
 class BasePage:
@@ -20,7 +22,12 @@ class BasePage:
     def _find_elements(self, locator: tuple) -> List[WebElement]:
         return self._driver.find_elements(*locator)
 
-    def _click(self, locator: tuple):
+    def _wait_until_element_is_visible(self, locator, time: int = 10):
+        wait = WebDriverWait(self._driver, time)
+        wait.until(ec.visibility_of_element_located(locator))
+
+    def _click(self, locator: tuple, time: int = 10):
+        self._wait_until_element_is_visible(locator, time)
         self._find(locator).click()
 
     def _type(self, locator: tuple, text: str):

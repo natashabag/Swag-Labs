@@ -15,3 +15,10 @@ class TestProductPage:
         product_page = ProductPage(driver)
         product_page.add_product_to_cart()
         assert product_page._get_number_of_items_in_the_cart() == '1', "Wrong Number of Items in the cart"
+
+    def test_logging_out(self, driver, execute_login):
+        product_page = ProductPage(driver)
+        product_page._logout()
+        login_page = LoginPage(driver)
+        assert login_page.expected_url == login_page.current_url, "User is redirected to the wrong page"
+

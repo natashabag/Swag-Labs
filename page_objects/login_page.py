@@ -44,5 +44,13 @@ class LoginPage(BasePage):
     def get_error_message(self):
         return super()._get_text(self.__error_message_container)
 
+    @property
+    def current_url(self) -> str:
+        return self._driver.current_url
+
+    @property
+    def expected_url(self) -> str:
+        return self.__url
+
 
 

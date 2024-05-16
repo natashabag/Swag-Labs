@@ -1,4 +1,5 @@
 import random
+import time
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -15,6 +16,8 @@ class ProductPage(BasePage):
     __inventory_name = (By.CLASS_NAME, "inventory_item_name")
     __index = random.randint(0, 5)
     __add_button = (By.XPATH, '//div[@class="inventory_item"]//button')
+    __burger_menu = (By.ID, "react-burger-menu-btn")
+    __logout_button = (By.ID, "logout_sidebar_link")
 
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
@@ -49,6 +52,10 @@ class ProductPage(BasePage):
 
     def _get_number_of_items_in_the_cart(self):
         return super()._get_text(self.__shopping_cart_badge)
+
+    def _logout(self):
+        super()._click(self.__burger_menu)
+        super()._click(self.__logout_button)
 
     @property
     def current_url(self) -> str:
