@@ -32,7 +32,7 @@ class ProductPage(BasePage):
             items_names.append(item_name.text)
         return items_names
 
-    def get_button_list(self):
+    def get_buttons_list(self):
         return super()._find_elements(self.__add_button)
 
     def get_inventory_name_by_index(self):
@@ -45,7 +45,7 @@ class ProductPage(BasePage):
         return super()._select_option_from_dropdown(self.__dropdown, option)
 
     def add_product_to_cart(self):
-        self.get_button_list()[self.__index].click()
+        self.get_buttons_list()[self.__index].click()
 
     def _get_number_of_items_in_the_cart(self):
         return super()._get_text(self.__shopping_cart_badge)

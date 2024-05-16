@@ -31,6 +31,16 @@ class LoginPage(BasePage):
         super()._type(self.__password_field, self.__password)
         super()._click(self.__login_button)
 
+    def log_in_without_password(self):
+        super()._open_url(self.__url)
+        super()._type(self.__username_field, self.__username)
+        super()._click(self.__login_button)
+
+    def log_in_without_username(self):
+        super()._open_url(self.__url)
+        super()._type(self.__password_field, self.__password)
+        super()._click(self.__login_button)
+
     def get_error_message(self):
         return super()._get_text(self.__error_message_container)
 
