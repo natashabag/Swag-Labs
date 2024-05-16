@@ -15,6 +15,8 @@ class CheckOutPage(BasePage):
     __summary_info = (By.CLASS_NAME, "summary_info")
     __finish_button = (By.ID, "finish")
     __checkout_complete_container = (By.ID, "checkout_complete_container")
+    __inventory_item_name = (By.CLASS_NAME, "inventory_item_name")
+    __inventory_item_price = (By.CLASS_NAME, "inventory_item_price")
 
     fake = Faker('en_US')
     __first_name = fake.first_name()
@@ -42,3 +44,9 @@ class CheckOutPage(BasePage):
 
     def check_if_checkout_complete_visible(self):
         return super()._is_visible(self.__checkout_complete_container)
+
+    def get_item_name_in_cart(self):
+        return super()._get_text(self.__inventory_item_name)
+
+    def get_item_price_in_cart(self):
+        return float(super()._get_text(self.__inventory_item_price).replace('$', ''))

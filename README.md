@@ -9,9 +9,10 @@
 4. <b> Item Sorting:</b> Sort items by name: Z-A
 5. <b> Item Sorting:</b> Sort items by price: low-to-high
 6. <b> Item Sorting:</b> Sort items by price: high-to-low
-7. <b> Shopping flow:</b> Adding items to cart
+7. <b> Shopping flow:</b> Adding random item to cart
 8. <b> Checkout:</b> Complete the order and receive confirmation
 9. ...in progress
+
 ## Tools and Technologies Used:
 
 <b> Selenium Webdriver + Pytest</b>
