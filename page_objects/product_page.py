@@ -18,6 +18,7 @@ class ProductPage(BasePage):
     __add_button = (By.XPATH, '//div[@class="inventory_item"]//button')
     __burger_menu = (By.ID, "react-burger-menu-btn")
     __logout_button = (By.ID, "logout_sidebar_link")
+    __inventory_item = (By.CLASS_NAME, "inventory_item")
 
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
@@ -56,6 +57,10 @@ class ProductPage(BasePage):
     def _logout(self):
         super()._click(self.__burger_menu)
         super()._click(self.__logout_button)
+
+    def _get_product_cards(self):
+        product_cards = super()._find_elements(self.__inventory_item)
+        return product_cards
 
     @property
     def current_url(self) -> str:
