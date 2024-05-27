@@ -15,6 +15,7 @@
 10. <b> Checkout:</b> Complete the order and receive confirmation
 11. <b> Product Page:</b> Check that price, name and picture are displayed for every item
 12. <b> Log Out:</b> Log out
+13. <b> Shopping flow:</b> Adding all items to cart, removing all but one random item from cart
 
 ## Tools and Technologies Used:
 
