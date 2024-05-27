@@ -1,9 +1,6 @@
 import random
-import time
-
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
-
 from page_objects.base_page import BasePage
 
 
@@ -61,6 +58,10 @@ class ProductPage(BasePage):
     def _get_product_cards(self):
         product_cards = super()._find_elements(self.__inventory_item)
         return product_cards
+
+    def _go_to_cart(self):
+        super()._click(self.__shopping_cart_badge)
+
 
     @property
     def current_url(self) -> str:

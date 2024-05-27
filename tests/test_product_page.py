@@ -1,6 +1,13 @@
+import random
+import time
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 import pytest
+from selenium.common import StaleElementReferenceException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
 
+from page_objects.checkout_page import CheckOutPage
 from page_objects.login_page import LoginPage
 from page_objects.product_page import ProductPage
 
@@ -17,6 +24,50 @@ class TestProductPage:
         product_page = ProductPage(driver)
         product_page.add_product_to_cart()
         assert product_page._get_number_of_items_in_the_cart() == '1', "Wrong Number of Items in the cart"
+
+    # test is checking whether the number of items in the cart is increasing after pressing "add" for each product
+    def test_add_all_products_to_cart(self, driver, execute_login):
+        product_page = ProductPage(driver)
+        checkout_page = CheckOutPage(driver)
+        expected_number = 0
+        for add_button in product_page.get_buttons_list():
+            add_button.click()
+            expected_number += 1
+        assert int(product_page._get_number_of_items_in_the_cart()) == expected_number, ("Wrong Number of Items in "
+                                                                                             "the cart")
+        product_page._go_to_cart()
+        time.sleep(5)
+        WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CLASS_NAME, "cart_item")))
+        items = driver.find_elements(By.CLASS_NAME, "cart_item")
+        item_to_keep_index = random.randint(0, len(items) - 1)
+        item_to_keep = items[item_to_keep_index]
+        item_to_keep_name = item_to_keep.find_element(By.CLASS_NAME,
+                                                      "inventory_item_name").text
+
+        while True:
+            items = driver.find_elements(By.CLASS_NAME, "cart_item")
+            if len(items) == 1:
+                break
+            for index, item in enumerate(items):
+                if index != item_to_keep_index:
+                    try:
+                        remove_button = item.find_element(By.XPATH,
+                                                          '//button[@class="btn btn_secondary btn_small cart_button"]')
+                        remove_button.click()
+                        WebDriverWait(driver, 10).until(
+                            lambda d: len(driver.find_elements(By.CLASS_NAME, "cart_item")) < len(items))
+                    except StaleElementReferenceException:
+                        continue  # Handle the case where the item is already removed
+                    except TimeoutException:
+                        # Log the error for debugging purposes
+                        print(f"Timeout waiting for item to be removed: {item}")
+                        raise
+
+        # Verify only one item remains in the cart
+        remaining_items = driver.find_elements(By.CLASS_NAME, "cart_item")
+        assert len(remaining_items) == 1, "More than one item remains in the cart."
+        remaining_item_name = remaining_items[0].find_element(By.CLASS_NAME, "inventory_item_name").text
+        assert remaining_item_name == item_to_keep_name, "The remaining item is not the expected one."
 
     # test is designed to check whether user can successfully log out
     def test_logging_out(self, driver, execute_login):

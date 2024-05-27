@@ -1,7 +1,6 @@
 from faker import Faker
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
-
 from page_objects.base_page import BasePage
 
 
@@ -22,6 +21,8 @@ class CheckOutPage(BasePage):
     __first_name = fake.first_name()
     __last_name = fake.last_name()
     __zip_code = '92021'
+
+    __remove_button = (By.CLASS_NAME, "btn btn_secondary btn_small cart_button")
 
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
@@ -50,3 +51,6 @@ class CheckOutPage(BasePage):
 
     def get_item_price_in_cart(self):
         return float(super()._get_text(self.__inventory_item_price).replace('$', ''))
+
+    def get_remove_buttons_list(self):
+        return super()._find_elements(self.__remove_button)
