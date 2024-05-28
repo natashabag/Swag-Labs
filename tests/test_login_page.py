@@ -1,4 +1,3 @@
-import time
 from page_objects.login_page import LoginPage
 from page_objects.product_page import ProductPage
 
