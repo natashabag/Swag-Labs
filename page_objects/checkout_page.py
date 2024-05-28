@@ -25,13 +25,15 @@ class CheckOutPage(BasePage):
     __remove_button = (By.CLASS_NAME, "btn btn_secondary btn_small cart_button")
     __continue_shopping_button = (By.ID, "continue-shopping")
 
+    __error_message = (By.XPATH, '//h3[@data-test="error"]')
+
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
 
     def open(self):
         super()._open_url(self.__url)
 
-    def check_out(self):
+    def fill_out_check_out_form(self):
         super()._click(self.__checkout_button)
         super()._type(self.__first_name_field, self.__first_name)
         super()._type(self.__last_name_field, self.__last_name)
@@ -58,3 +60,18 @@ class CheckOutPage(BasePage):
 
     def press_continue_shopping(self):
         super()._click(self.__continue_shopping_button)
+
+    def press_checkout_button(self):
+        super()._click(self.__checkout_button)
+
+    def press_continue_button(self):
+        super()._click(self.__continue_button)
+
+    def get_error_message(self):
+        return super()._get_text(self.__error_message)
+
+    def fill_out_name(self):
+        super()._type(self.__first_name_field, self.__first_name)
+
+    def fill_out_last_name(self):
+        super()._type(self.__last_name_field, self.__last_name)

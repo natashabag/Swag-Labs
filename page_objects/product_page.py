@@ -67,6 +67,7 @@ class ProductPage(BasePage):
         return super()._find_elements(self.__inventory_item)
 
 
+
     @property
     def current_url(self) -> str:
         return self._driver.current_url
