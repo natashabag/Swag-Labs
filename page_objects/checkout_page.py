@@ -1,3 +1,4 @@
+import random
 from faker import Faker
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -17,17 +18,20 @@ class CheckOutPage(BasePage):
     __inventory_item_name = (By.CLASS_NAME, "inventory_item_name")
     __inventory_item_price = (By.CLASS_NAME, "inventory_item_price")
 
+    __cart_item = (By.CLASS_NAME, "cart_item")
+
     fake = Faker('en_US')
     __first_name = fake.first_name()
     __last_name = fake.last_name()
     __zip_code = '92021'
 
-    __remove_button = (By.CLASS_NAME, "btn btn_secondary btn_small cart_button")
+    __remove_button = (By.XPATH, './/button[@class="btn btn_secondary btn_small cart_button"]')
     __continue_shopping_button = (By.ID, "continue-shopping")
 
     __error_message = (By.XPATH, '//h3[@data-test="error"]')
-    __total_price = (By.XPATH, '//div[@class="summary_subtotal_label"]')
+    __total_price_without_tax = (By.XPATH, '//div[@class="summary_subtotal_label"]')
     __tax = (By.XPATH, '//div[@class="summary_tax_label"]')
+    __total_price = (By.XPATH, '//div[@class="summary_total_label"]')
 
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
@@ -78,14 +82,33 @@ class CheckOutPage(BasePage):
     def fill_out_last_name(self):
         super()._type(self.__last_name_field, self.__last_name)
 
-    def get_total_price(self):
-        total_price_str = super()._get_text(self.__total_price)
+    def get_price_without_tax(self):
+        total_price_str = super()._get_text(self.__total_price_without_tax)
         price_str = total_price_str.split('$')[1].strip()
         total_price_number = float(price_str)
         return total_price_number
+
     def get_tax(self):
         full_tax_str = super()._get_text(self.__tax)
         tax_str = full_tax_str.split('$')[1].strip()
         tax = float(tax_str)
         return tax
+
+    def get_total_price(self):
+        total_str = super()._get_text(self.__total_price)
+        total_str = total_str.split('$')[1].strip()
+        total_price = float(total_str)
+        return total_price
+
+    def remove_all_but_one_random_item_from_cart(self):
+        items = super()._find_elements(self.__cart_item)
+        item_to_keep_index = random.randint(0, len(items) - 1)
+        item_to_keep = items[item_to_keep_index]
+        item_to_keep_name = item_to_keep.find_element(*self.__inventory_item_name).text
+        for item in items:
+            item_name = item.find_element(*self.__inventory_item_name).text
+            if item_to_keep_name != item_name:
+                remove_button = item.find_element(*self.__remove_button)
+                remove_button.click()
+        return item_to_keep_name
 

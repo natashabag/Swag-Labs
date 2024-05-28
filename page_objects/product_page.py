@@ -67,7 +67,14 @@ class ProductPage(BasePage):
     def _get_item_list(self):
         return super()._find_elements(self.__inventory_item)
 
-
+    def _add_all_items_to_cart(self):
+        expected_number = 0
+        for add_button in self.get_buttons_list():
+            add_button.click()
+            expected_number += 1
+            # verifying that product count is +1 every time user adds an item
+            assert int(self._get_number_of_items_in_the_cart()) == expected_number, ("Wrong Number of Items in "
+                                                                                             "the cart")
 
     @property
     def current_url(self) -> str:

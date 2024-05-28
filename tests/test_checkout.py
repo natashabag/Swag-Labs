@@ -49,13 +49,7 @@ class TestCheckOut:
     def test_check_out_negative(self, driver, execute_login):
         product_page = ProductPage(driver)
         # adding all products to cart
-        expected_number = 0
-        for add_button in product_page.get_buttons_list():
-            add_button.click()
-            expected_number += 1
-            # verifying that product count is +1 every time user adds an item
-            assert int(product_page._get_number_of_items_in_the_cart()) == expected_number, ("Wrong Number of Items in "
-                                                                                             "the cart")
+        product_page._add_all_items_to_cart()
         # proceeding to checkout:
         product_page._go_to_cart()
         checkout_page = CheckOutPage(driver)
@@ -75,26 +69,27 @@ class TestCheckOut:
     def test_check_total_amount(self, driver, execute_login):
         product_page = ProductPage(driver)
         # adding all products to cart
-        expected_number = 0
-        for add_button in product_page.get_buttons_list():
-            add_button.click()
-            expected_number += 1
-            # verifying that product count is +1 every time user adds an item
-            assert int(product_page._get_number_of_items_in_the_cart()) == expected_number, ("Wrong Number of Items in "
-                                                                                             "the cart")
+        product_page._add_all_items_to_cart()
         # getting prices for all products on product page
         inventory_items_prices = product_page.get_inventory_items_prices()
         # getting sum of all prices for all products on product page
         total_items_price = sum(inventory_items_prices)
         # getting expected tax for all products on product page
         expected_tax = round(total_items_price * 0.08, 2)
+        expected_total_price = total_items_price + expected_tax
         # proceeding to checkout
         product_page._go_to_cart()
         checkout_page = CheckOutPage(driver)
         checkout_page.fill_out_check_out_form()
         # verifying that total amount in the order summary matches the sum of all prices for all products on product
         # page
-        assert checkout_page.get_total_price() == total_items_price, ("Prices on the product page and prices in the "
-                                                                      "order summary don't much")
+        assert checkout_page.get_price_without_tax() == total_items_price, (
+            "Prices on the product page and prices in the "
+            "order summary don't much")
         # verifying that tax in the order summary matches the expected tax (8%)
         assert checkout_page.get_tax() == expected_tax, "Expected tax does not match tax in the product summary"
+        # verifying that tax in the order summary matches the expected tax (8%) + the sum of all prices for all
+        # products on product page
+        assert checkout_page.get_total_price() == expected_total_price, ("Expected total price does not "
+                                                                         "match total in the product "
+                                                                         "summary")

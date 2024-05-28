@@ -28,30 +28,14 @@ class TestProductPage:
     # test is checking whether the number of items in the cart is increasing after pressing "add" for each product
     def test_add_all_products_to_cart(self, driver, execute_login):
         product_page = ProductPage(driver)
-        expected_number = 0
-        for add_button in product_page.get_buttons_list():
-            add_button.click()
-            expected_number += 1
-            assert int(product_page._get_number_of_items_in_the_cart()) == expected_number, ("Wrong Number of Items in "
-                                                                                         "the cart")
+        product_page._add_all_items_to_cart()
         product_page._go_to_cart()
-        items = driver.find_elements(By.CLASS_NAME, "cart_item")
-        item_to_keep_index = random.randint(0, len(items) - 1)
-        item_to_keep = items[item_to_keep_index]
-        item_to_keep_name = item_to_keep.find_element(By.CLASS_NAME,
-                                                      "inventory_item_name").text
-        for item in items:
-            item_name = item.find_element(By.CLASS_NAME,
-                                          "inventory_item_name").text
-            if item_to_keep_name != item_name:
-                remove_button = item.find_element(By.XPATH,
-                                                  './/button[@class="btn btn_secondary btn_small cart_button"]')
-                remove_button.click()
+        checkout_page = CheckOutPage(driver)
+        item_to_keep_name = checkout_page.remove_all_but_one_random_item_from_cart()
         remaining_items = driver.find_elements(By.CLASS_NAME, "cart_item")
         assert len(remaining_items) == 1, "More than one item remains in the cart."
         remaining_item_name = remaining_items[0].find_element(By.CLASS_NAME, "inventory_item_name").text
         assert remaining_item_name == item_to_keep_name, "The remaining item is not the expected one."
-        checkout_page = CheckOutPage(driver)
         # RETURN TO PRODUCT PAGE
         # Verify that the button next to every item says "Add to cart" except for the item which was randomly selected
         checkout_page.press_continue_shopping()
