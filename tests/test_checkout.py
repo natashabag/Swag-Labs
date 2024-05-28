@@ -1,5 +1,3 @@
-import time
-
 import pytest
 from page_objects.checkout_page import CheckOutPage
 from page_objects.login_page import LoginPage

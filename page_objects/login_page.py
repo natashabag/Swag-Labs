@@ -1,20 +1,23 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
-
 from page_objects.base_page import BasePage
 
 
 class LoginPage(BasePage):
     __url = "https://www.saucedemo.com/"
+
+    # login fields:
     __username_field = (By.ID, "user-name")
     __password_field = (By.ID, "password")
     __login_button = (By.ID, "login-button")
-    __error_message_container = (By.CSS_SELECTOR, 'h3[data-test="error"]')
 
     # credentials:
     __username = "standard_user"
     __password = "secret_sauce"
     __locked_out_username = "locked_out_user"
+
+    # error message:
+    __error_message_container = (By.CSS_SELECTOR, 'h3[data-test="error"]')
 
     def __init__(self, driver: WebDriver):
         super().__init__(driver)

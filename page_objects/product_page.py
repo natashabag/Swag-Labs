@@ -3,20 +3,24 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from page_objects.base_page import BasePage
 
-
 class ProductPage(BasePage):
-    # product description:
     __url = "https://www.saucedemo.com/inventory.html"
-    __dropdown = (By.CLASS_NAME, "product_sort_container")
+
+    # product description:
     __shopping_cart_badge = (By.CLASS_NAME, "shopping_cart_badge")
     __price = (By.CLASS_NAME, "inventory_item_price")
     __inventory_name = (By.CLASS_NAME, "inventory_item_name")
-    __index = random.randint(0, 5)
-    __add_button = (By.XPATH, '//div[@class="inventory_item"]//button')
-    __burger_menu = (By.ID, "react-burger-menu-btn")
-    __logout_button = (By.ID, "logout_sidebar_link")
     __inventory_item = (By.CLASS_NAME, "inventory_item")
     __item = (By.ID, "inventory_item")
+
+    # burger menu:
+    __burger_menu = (By.ID, "react-burger-menu-btn")
+    __logout_button = (By.ID, "logout_sidebar_link")
+
+    # other:
+    __dropdown = (By.CLASS_NAME, "product_sort_container")
+    __add_button = (By.XPATH, '//div[@class="inventory_item"]//button')
+    __index = random.randint(0, 5)
 
     def __init__(self, driver: WebDriver):
         super().__init__(driver)

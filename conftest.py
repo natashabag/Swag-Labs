@@ -39,3 +39,4 @@ def pytest_runtest_makereport(item, call):
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="chrome", help="browser to execute tests(chrome or firefox")
     parser.addoption("--screenshot", action="store_true", help="take screenshots on test failure")
+
