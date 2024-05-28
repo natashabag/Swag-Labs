@@ -16,6 +16,7 @@ class ProductPage(BasePage):
     __burger_menu = (By.ID, "react-burger-menu-btn")
     __logout_button = (By.ID, "logout_sidebar_link")
     __inventory_item = (By.CLASS_NAME, "inventory_item")
+    __item = (By.ID, "inventory_item")
 
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
@@ -61,6 +62,9 @@ class ProductPage(BasePage):
 
     def _go_to_cart(self):
         super()._click(self.__shopping_cart_badge)
+
+    def _get_item_list(self):
+        return super()._find_elements(self.__inventory_item)
 
 
     @property

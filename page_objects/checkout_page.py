@@ -23,6 +23,7 @@ class CheckOutPage(BasePage):
     __zip_code = '92021'
 
     __remove_button = (By.CLASS_NAME, "btn btn_secondary btn_small cart_button")
+    __continue_shopping_button = (By.ID, "continue-shopping")
 
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
@@ -54,3 +55,6 @@ class CheckOutPage(BasePage):
 
     def get_remove_buttons_list(self):
         return super()._find_elements(self.__remove_button)
+
+    def press_continue_shopping(self):
+        super()._click(self.__continue_shopping_button)

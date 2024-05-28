@@ -28,7 +28,6 @@ class TestProductPage:
     # test is checking whether the number of items in the cart is increasing after pressing "add" for each product
     def test_add_all_products_to_cart(self, driver, execute_login):
         product_page = ProductPage(driver)
-        checkout_page = CheckOutPage(driver)
         expected_number = 0
         for add_button in product_page.get_buttons_list():
             add_button.click()
@@ -36,38 +35,35 @@ class TestProductPage:
         assert int(product_page._get_number_of_items_in_the_cart()) == expected_number, ("Wrong Number of Items in "
                                                                                              "the cart")
         product_page._go_to_cart()
-        time.sleep(5)
-        WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CLASS_NAME, "cart_item")))
         items = driver.find_elements(By.CLASS_NAME, "cart_item")
         item_to_keep_index = random.randint(0, len(items) - 1)
         item_to_keep = items[item_to_keep_index]
         item_to_keep_name = item_to_keep.find_element(By.CLASS_NAME,
                                                       "inventory_item_name").text
 
-        while True:
-            items = driver.find_elements(By.CLASS_NAME, "cart_item")
-            if len(items) == 1:
-                break
-            for index, item in enumerate(items):
-                if index != item_to_keep_index:
-                    try:
-                        remove_button = item.find_element(By.XPATH,
-                                                          '//button[@class="btn btn_secondary btn_small cart_button"]')
-                        remove_button.click()
-                        WebDriverWait(driver, 10).until(
-                            lambda d: len(driver.find_elements(By.CLASS_NAME, "cart_item")) < len(items))
-                    except StaleElementReferenceException:
-                        continue  # Handle the case where the item is already removed
-                    except TimeoutException:
-                        # Log the error for debugging purposes
-                        print(f"Timeout waiting for item to be removed: {item}")
-                        raise
-
-        # Verify only one item remains in the cart
+        for item in items:
+            item_name = item.find_element(By.CLASS_NAME,
+                                                  "inventory_item_name").text
+            if item_to_keep_name != item_name:
+                remove_button = item.find_element(By.XPATH,
+                                              './/button[@class="btn btn_secondary btn_small cart_button"]')
+                remove_button.click()
         remaining_items = driver.find_elements(By.CLASS_NAME, "cart_item")
         assert len(remaining_items) == 1, "More than one item remains in the cart."
         remaining_item_name = remaining_items[0].find_element(By.CLASS_NAME, "inventory_item_name").text
         assert remaining_item_name == item_to_keep_name, "The remaining item is not the expected one."
+        checkout_page = CheckOutPage(driver)
+        #RETURN TO PRODUCT PAGE
+        # Verify that the button next to every item says "Add to cart" except for the item which was randomly selected
+        checkout_page.press_continue_shopping()
+        for item in product_page._get_item_list():
+            item_in_product_page_name = item.find_element(By.CLASS_NAME,
+                                          "inventory_item_name").text
+            if item_to_keep_name != item_in_product_page_name:
+                button = item.find_element(By.XPATH, './/button[@class="btn btn_primary btn_small btn_inventory "]')
+                assert button.text == 'Add to cart', "Add to cart is not displayed"
+
+
 
     # test is designed to check whether user can successfully log out
     def test_logging_out(self, driver, execute_login):
