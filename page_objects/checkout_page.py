@@ -26,6 +26,8 @@ class CheckOutPage(BasePage):
     __continue_shopping_button = (By.ID, "continue-shopping")
 
     __error_message = (By.XPATH, '//h3[@data-test="error"]')
+    __total_price = (By.XPATH, '//div[@class="summary_subtotal_label"]')
+    __tax = (By.XPATH, '//div[@class="summary_tax_label"]')
 
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
@@ -75,3 +77,15 @@ class CheckOutPage(BasePage):
 
     def fill_out_last_name(self):
         super()._type(self.__last_name_field, self.__last_name)
+
+    def get_total_price(self):
+        total_price_str = super()._get_text(self.__total_price)
+        price_str = total_price_str.split('$')[1].strip()
+        total_price_number = float(price_str)
+        return total_price_number
+    def get_tax(self):
+        full_tax_str = super()._get_text(self.__tax)
+        tax_str = full_tax_str.split('$')[1].strip()
+        tax = float(tax_str)
+        return tax
+

@@ -28,6 +28,7 @@ class ProductPage(BasePage):
             items_prices.append(float(only_numbers))
         return items_prices
 
+
     def get_inventory_names(self):
         items_names = []
         for item_name in super()._find_elements(self.__inventory_name):

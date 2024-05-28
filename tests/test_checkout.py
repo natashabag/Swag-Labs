@@ -11,6 +11,7 @@ def execute_login(driver):
     login_page = LoginPage(driver)
     login_page.log_in_valid_user()
 
+
 @pytest.fixture(scope='function')
 def add_product(driver):
     product_page = ProductPage(driver)
@@ -44,32 +45,56 @@ class TestCheckOut:
 
     """test is designed to check checkout flow and verify whether user can check out without entering First Name, 
     Last Name and Zip """
+
     def test_check_out_negative(self, driver, execute_login):
         product_page = ProductPage(driver)
-    # adding all products to cart
+        # adding all products to cart
         expected_number = 0
         for add_button in product_page.get_buttons_list():
             add_button.click()
             expected_number += 1
-    # verifying that product count is +1 every time user adds an item
+            # verifying that product count is +1 every time user adds an item
             assert int(product_page._get_number_of_items_in_the_cart()) == expected_number, ("Wrong Number of Items in "
-                                                                                            "the cart")
-    # proceeding to checkout:
+                                                                                             "the cart")
+        # proceeding to checkout:
         product_page._go_to_cart()
         checkout_page = CheckOutPage(driver)
         checkout_page.press_checkout_button()
         checkout_page.press_continue_button()
-    # verifying that user cannot continue checking out without entering first name
+        # verifying that user cannot continue checking out without entering first name
         assert checkout_page.get_error_message() == "Error: First Name is required", "Wrong Error Message"
         checkout_page.fill_out_name()
         checkout_page.press_continue_button()
-    # verifying that user cannot continue checking out without entering last name
+        # verifying that user cannot continue checking out without entering last name
         assert checkout_page.get_error_message() == "Error: Last Name is required", "Wrong Error Message"
         checkout_page.fill_out_last_name()
         checkout_page.press_continue_button()
-    # verifying that user cannot continue checking out without entering zip code
+        # verifying that user cannot continue checking out without entering zip code
         assert checkout_page.get_error_message() == "Error: Postal Code is required", "Wrong Error Message"
 
-
-
-
+    def test_check_total_amount(self, driver, execute_login):
+        product_page = ProductPage(driver)
+        # adding all products to cart
+        expected_number = 0
+        for add_button in product_page.get_buttons_list():
+            add_button.click()
+            expected_number += 1
+            # verifying that product count is +1 every time user adds an item
+            assert int(product_page._get_number_of_items_in_the_cart()) == expected_number, ("Wrong Number of Items in "
+                                                                                             "the cart")
+        # getting prices for all products on product page
+        inventory_items_prices = product_page.get_inventory_items_prices()
+        # getting sum of all prices for all products on product page
+        total_items_price = sum(inventory_items_prices)
+        # getting expected tax for all products on product page
+        expected_tax = round(total_items_price * 0.08, 2)
+        # proceeding to checkout
+        product_page._go_to_cart()
+        checkout_page = CheckOutPage(driver)
+        checkout_page.fill_out_check_out_form()
+        # verifying that total amount in the order summary matches the sum of all prices for all products on product
+        # page
+        assert checkout_page.get_total_price() == total_items_price, ("Prices on the product page and prices in the "
+                                                                      "order summary don't much")
+        # verifying that tax in the order summary matches the expected tax (8%)
+        assert checkout_page.get_tax() == expected_tax, "Expected tax does not match tax in the product summary"
