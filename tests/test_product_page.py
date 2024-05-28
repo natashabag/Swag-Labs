@@ -53,7 +53,7 @@ class TestProductPage:
         remaining_item_name = remaining_items[0].find_element(By.CLASS_NAME, "inventory_item_name").text
         assert remaining_item_name == item_to_keep_name, "The remaining item is not the expected one."
         checkout_page = CheckOutPage(driver)
-        #RETURN TO PRODUCT PAGE
+        # RETURN TO PRODUCT PAGE
         # Verify that the button next to every item says "Add to cart" except for the item which was randomly selected
         checkout_page.press_continue_shopping()
         for item in product_page._get_item_list():
