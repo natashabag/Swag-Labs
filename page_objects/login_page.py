@@ -13,7 +13,9 @@ class LoginPage(BasePage):
 
     # credentials:
     __username = "standard_user"
+    __invalid_username = "invalid_username"
     __password = "secret_sauce"
+    __wrong_password = "wrong_password"
     __locked_out_username = "locked_out_user"
 
     # error message:
@@ -42,6 +44,18 @@ class LoginPage(BasePage):
     def log_in_without_username(self):
         super()._open_url(self.__url)
         super()._type(self.__password_field, self.__password)
+        super()._click(self.__login_button)
+
+    def log_in_with_wrong_password(self):
+        super()._open_url(self.__url)
+        super()._type(self.__username_field, self.__username)
+        super()._type(self.__password_field, self.__wrong_password )
+        super()._click(self.__login_button)
+
+    def log_in_with_invalid_username(self):
+        super()._open_url(self.__url)
+        super()._type(self.__username_field, self.__invalid_username)
+        super()._type(self.__password_field, self.__password )
         super()._click(self.__login_button)
 
     def get_error_message(self):

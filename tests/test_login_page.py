@@ -28,3 +28,17 @@ class TestLoginPage:
         login_page = LoginPage(driver)
         login_page.log_in_without_username()
         assert login_page.get_error_message() == "Epic sadface: Username is required", "Wrong Error Message"
+
+    # test is designed to check whether a user can log in with wrong password
+    def test_login_with_wrong_password(self, driver):
+        login_page = LoginPage(driver)
+        login_page.log_in_with_wrong_password()
+        assert login_page.get_error_message() == ("Epic sadface: Username and password do not match any user in this "
+                                                  "service")
+
+    # test is designed to check whether a user can log in with invalid username
+    def test_login_with_invalid_username(self, driver):
+        login_page = LoginPage(driver)
+        login_page.log_in_with_invalid_username()
+        assert login_page.get_error_message() == ("Epic sadface: Username and password do not match any user in this "
+                                                  "service")
